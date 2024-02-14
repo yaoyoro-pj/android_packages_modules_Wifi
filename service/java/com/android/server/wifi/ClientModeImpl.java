@@ -1623,6 +1623,15 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
         return mWifiNative.isWifiStandardSupported(mInterfaceName, standard);
     }
 
+    /**
+     * Check whether 11ax is supported by the most recent connection.
+     */
+    public boolean mostRecentConnectionSupports11ax() {
+        return mLastConnectionCapabilities != null
+                && (mLastConnectionCapabilities.wifiStandard == ScanResult.WIFI_STANDARD_11AX
+                || mLastConnectionCapabilities.wifiStandard == ScanResult.WIFI_STANDARD_11BE);
+    }
+
     private byte[] getDstMacForKeepalive(KeepalivePacketData packetData)
             throws InvalidPacketException {
         try {
@@ -5584,7 +5593,8 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
                     mWifiInfo.setNetworkKey(config.getNetworkKeyFromSecurityType(
                             mWifiInfo.getCurrentSecurityType()));
                     if (mApplicationQosPolicyRequestHandler.isFeatureEnabled()) {
-                        mApplicationQosPolicyRequestHandler.queueAllPoliciesOnIface(mInterfaceName);
+                        mApplicationQosPolicyRequestHandler.queueAllPoliciesOnIface(
+                                mInterfaceName, mostRecentConnectionSupports11ax());
                     }
                     updateLayer2Information();
                     updateCurrentConnectionInfo();
@@ -6349,7 +6359,8 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
                     }
                     checkIfNeedDisconnectSecondaryWifi();
                     if (mApplicationQosPolicyRequestHandler.isFeatureEnabled()) {
-                        mApplicationQosPolicyRequestHandler.queueAllPoliciesOnIface(mInterfaceName);
+                        mApplicationQosPolicyRequestHandler.queueAllPoliciesOnIface(
+                                mInterfaceName, mostRecentConnectionSupports11ax());
                     }
                     break;
                 }
