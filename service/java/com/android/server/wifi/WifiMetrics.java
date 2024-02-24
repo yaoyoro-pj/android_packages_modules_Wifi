@@ -7132,7 +7132,7 @@ public class WifiMetrics {
     /**
      * Add a new listener for Wi-Fi usability stats handling.
      */
-    public void addOnWifiUsabilityListener(IOnWifiUsabilityStatsListener listener) {
+    public void addOnWifiUsabilityListener(@NonNull IOnWifiUsabilityStatsListener listener) {
         if (!mOnWifiUsabilityListeners.register(listener)) {
             Log.e(TAG, "Failed to add listener");
             return;
@@ -7146,7 +7146,7 @@ public class WifiMetrics {
     /**
      * Remove an existing listener for Wi-Fi usability stats handling.
      */
-    public void removeOnWifiUsabilityListener(IOnWifiUsabilityStatsListener listener) {
+    public void removeOnWifiUsabilityListener(@NonNull IOnWifiUsabilityStatsListener listener) {
         mOnWifiUsabilityListeners.unregister(listener);
         if (DBG) {
             Log.v(TAG, "Removing listener. Num listeners: "
