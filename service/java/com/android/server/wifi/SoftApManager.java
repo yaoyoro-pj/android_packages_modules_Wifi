@@ -1060,6 +1060,8 @@ public class SoftApManager implements ActiveModeManager {
                             mModeListener.onStartFailure(SoftApManager.this);
                             break;
                         }
+                        // no-op if the HAL is already started
+                        mWifiNative.startHal();
                         if (isBridgedMode()) {
                             boolean isFallbackToSingleAp = false;
                             final List<ClientModeManager> cmms =
